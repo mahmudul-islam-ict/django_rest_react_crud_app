@@ -1,0 +1,67 @@
+import './App.css';
+import React from 'react';
+
+class App extends React.Component {
+  
+  state = {
+    isLoading: false,
+    articles: [],
+    error: null
+  };
+
+  fetchArticles() {
+    fetch("http://localhost:8000/api/articles/").then(response => response.json())
+    .then(data =>
+    this.setState({
+      articles: data,
+      isLoading: false,
+    })
+    ).catch(error => this.setState({ error, isLoading: false}));
+  }
+
+  componentDidMount() {
+    this.fetchArticles();
+  }
+  render() {
+    const { isLoading, articles, error } = this.state;
+    if(error) {
+      return <div>Error: {error.message}</div>;
+    }else if(!isLoading) {
+      return (
+        <div>
+          <ul>
+            {articles.map(article  => (
+              <li key={article.id}>
+                {article.title} {article.description} {article.author}
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+  }
+}
+
+export default App;
+
+//// post method 
+componentDidMount() {
+    const recipeUrl = 'http://localhost:8080/api/recipes';
+    const postBody = {
+        type: "hot",
+        limit: 10
+    };
+    const requestMetadata = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postBody)
+    };
+
+    fetch(recipeUrl, requestMetadata)
+        .then(res => res.json())
+        .then(recipes => {
+            this.setState({ recipes });
+        });
+}

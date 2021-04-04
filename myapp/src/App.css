@@ -1,0 +1,14 @@
+.App {
+  text-align: left;
+}
+.container {
+  padding-top: 10px;
+}
+ul {
+  list-style: none;
+}
+#main {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
